@@ -12,7 +12,7 @@ table {
 .box {
   overflow-x: auto;
   overflow-y: auto;
-  max-width: 700px;
+  max-width: 900px;
   max-height: 335px;
 }
 tr *:first-child {
@@ -65,13 +65,13 @@ thead :last-child {
   color: white;
 }
 h1{
-  margin-left: 220px;
+  text-align: center;
 }
 h1:hover{
   color:rgb(209, 206, 255);
 }
 .box1{
-  margin-left: 160px;
+  margin-left: 70px;
 }
 .btn{
   display: flex;
