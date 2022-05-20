@@ -57,8 +57,6 @@ thead :last-child {
 }
 .btn1{
   background-color:rgb(209, 206, 255) !important;
-  
-
 }
 .btn1:hover{
   background-color: black !important;
@@ -79,3 +77,4 @@ h1:hover{
 .sardor{
 margin-right: 10px;
 }
+

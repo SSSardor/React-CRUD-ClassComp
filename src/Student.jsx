@@ -13,7 +13,7 @@ class Student extends React.Component {
       selected: {},
     };
   }
-  // *************************************************
+  // *******************************************************************************************
   render() {
     //delete
     const onDelete = (id) => {
@@ -28,22 +28,45 @@ class Student extends React.Component {
       );
       this.setState({ student: res });
     };
-    //edit
 
-    const onSelect = (value) => {
-      this.setState({ selected: value });
+    //edit
+    const onSelect = (item) => {
+      this.setState({ selected: item,...item });
     };
+    const onBorder=(id)=>{
+      if(id==this.state.selected?.id){
+        return "1px solid black"
+      }else{
+        return "none"
+      }
+
+    }
     // input disable
+
     const getDisabled = (id) => {
       return this.state.selected?.id !== id;
     };
+
     //Cancel
     const onCancel = () => {
-      this.setState({ selected: null });
+      let res = this.state.student.map((value) => {
+        return this.state.selected?.id === value.id
+          ? {
+              ...value,
+              name: this.state.selected.name,
+              age: this.state.selected.age,
+              status: this.state.selected.status,
+            }
+          : value;
+      });
+    
+      this.setState({ student: res, selected: null });
     };
+    
+
     //Save
     const onSave = () => {
-      console.log(this.state);
+
       let res = this.state.student.map((value) => {
         return this.state.selected?.id === value.id
           ? {
@@ -54,16 +77,18 @@ class Student extends React.Component {
             }
           : value;
       });
-      console.log(res, "resss");
+    
       this.setState({ student: res, selected: null });
     };
+
     //Change
     const onChange = ({ target }) => {
       const { name, value } = target;
       this.setState({ [name]: value });
+      // this.setState({ [name]: value });
     };
 
-    //********************************* */
+    //***********************   Filter input qismi */
     return (
       <div className="box1">
         <div>
@@ -90,7 +115,7 @@ class Student extends React.Component {
             placeholder="Age"
           />
         </div>
-        {/* *************************************************** */}
+        {/* ******************************* Thead table ******************** */}
         <div className="box">
           <table border="2px">
             <thead>
@@ -102,53 +127,60 @@ class Student extends React.Component {
                 <th>Delete/Edit</th>
               </tr>
             </thead>
-            {/***************************/}
+            {/****************** Tbody table Change input *********/}
             <tbody>
-              {this.state.student.map((value) => {
-                const { id, name, status, age } = value;
+              {this.state.student.map((item) => {
+                const { id, name, status, age } = item;
                 return (
-                  <tr key={value.id}>
+                  <tr key={id}>
                     <td className="id">
-                      <input disabled={true} defaultValue={id} type="text" />
+                     {id} 
                     </td>
                     <td>
                       <input
+                      style={{border:onBorder(id)}}
                         disabled={getDisabled(id)}
-                        defaultValue={name}
+                        value={getDisabled(id)?name:this.state.name}
+                        name="name"
                         type="text"
                         onChange={onChange}
                       />
                     </td>
                     <td>
                       <input
+                       style={{border:onBorder(id)}}
                         disabled={getDisabled(id)}
-                        defaultValue={status}
+                        value={getDisabled(id)?status:this.state.status}
+                        name="status"
                         type="text"
                         onChange={onChange}
                       />
                     </td>
                     <td>
                       <input
+                       style={{border:onBorder(id)}}
                         disabled={getDisabled(id)}
-                        defaultValue={age}
+                        value={getDisabled(id)?age:this.state.age}
+                        name="age"
                         type="text"
                         onChange={onChange}
                       />
                     </td>
+
                     <td>
+
                       <div className="sardor">
                         {!getDisabled(id) ? (
                           <>
                             <button
                               className="btn1"
-                              onClick={() => onCancel(id)}
+                              onClick={() => onCancel(item)}
                             >
-                              {" "}
                               cancel
                             </button>
                             <button
                               className="btn1"
-                              onClick={() => onSave(value)}
+                              onClick={() => onSave(id)}
                             >
                               save
                             </button>
@@ -159,14 +191,14 @@ class Student extends React.Component {
                               className="btn1"
                               onClick={() => onDelete(id)}
                             >
-                              delete{" "}
+                              {" "}
+                              delete
                             </button>
                             <button
                               className="btn1"
-                              onClick={() => onSelect(value)}
+                              onClick={() => onSelect(item)}
                             >
-                              {" "}
-                              edit{" "}
+                              edit
                             </button>
                           </>
                         )}
